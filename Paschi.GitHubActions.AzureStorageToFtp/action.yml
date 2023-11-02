@@ -1,0 +1,44 @@
+name: 'Copy Azure Blob Storage Items to FTP/S server'
+description: 'A Github action that copies items from an Azure Blob Storage account to an FTP/S server.'
+branding:
+  icon: download-cloud
+  color: blue
+inputs:
+  publish-profile:
+    description: 'Applies to Web Apps(Windows and Linux) and Web App Containers(Linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets'
+    required: true
+  connection-string:
+    description: 'Azure Blob Storage connection string (Key or SAS).'
+    required: true
+  container-name:
+    description: 'The Azure Blob Storage container name from where to copy the files.'
+    required: true
+  source:
+    description: 'The directory or file used to copy. Example, "path/to/folder/" or "path/to/file.txt".'
+    required: true
+  destination:
+    description: 'The root directory to work from. Example, "path/to/destination".'
+    required: true
+outputs:
+  summary-files:
+    description: 'The number of files copied as a result of running this action.'
+  errors:
+    description: 'The number of files not copied as a result of running into errors.'
+  summary-details:
+    description: 'A detailed list of all files that were copied.'
+  copied-files:
+    description: 'A boolean value, indicating whether or not files were copied as a result of running this action.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+  - '-a'
+  - ${{ inputs.connection-string }}
+  - '-c'
+  - ${{ inputs.container-name}}
+  - '-p'
+  - ${{ inputs.publish-profile }}
+  - '-s'
+  - ${{ inputs.source }}
+  - '-d'
+  - ${{ inputs.destination}}
