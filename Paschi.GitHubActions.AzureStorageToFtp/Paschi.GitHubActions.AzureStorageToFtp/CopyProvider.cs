@@ -120,13 +120,13 @@ sealed class CopyProvider
                     Copied = result.IsSuccess()
                 });
             }
-            catch (Azure.RequestFailedException af)
+            catch (RequestFailedException af)
             {
-                _logger.LogError($"Unable to retrieve Azure blob [{af.Status}] - [{file}]: {af.Message}");
+                _logger.LogError($"Unable to retrieve {sourceFile} [{af.Status}] - [{file}]: {af.Dump()}");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unable to retrieve Azure blob [{file}]: {ex.Message}");
+                _logger.LogError($"Unable to copy {sourceFile}: {ex.Dump()}");
             }
             Console.WriteLine($"{desc} - Done in {(DateTime.Now - startTime).TotalMilliseconds}[ms].");
             ftpClients.Add(client);
