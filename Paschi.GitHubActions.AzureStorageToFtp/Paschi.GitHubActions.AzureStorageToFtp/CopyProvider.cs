@@ -114,7 +114,7 @@ sealed class CopyProvider
             {
                 var blobClient = containerClient.GetBlobClient(sourceFile);
                 var info = await blobClient.DownloadAsync(token);
-                var result = await client.UploadStream(info.Value.Content, remotePath, token: token);
+                var result = await client.UploadStream(info.Value.Content, remotePath, FtpRemoteExists.Overwrite, true, token: token);
                 results.Add(new CopyResult
                 {
                     Copied = result.IsSuccess()
