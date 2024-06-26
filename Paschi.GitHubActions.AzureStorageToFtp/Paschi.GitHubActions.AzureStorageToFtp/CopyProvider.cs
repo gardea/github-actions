@@ -90,7 +90,7 @@ sealed class CopyProvider
             string thread = $"Thread {Environment.CurrentManagedThreadId}";
             if (!ftpClients.TryTake(out var client))
             {
-                Console.WriteLine($"{thread} Opening FTP connection...");
+                Console.WriteLine($"{thread} Opening FTP connection to [{url.Host ?? string.Empty}]...");
                 client = new AsyncFtpClient(url.Host, user, password);
                 client.Config.EncryptionMode = FtpEncryptionMode.Explicit;
                 client.Config.ValidateAnyCertificate = true;
